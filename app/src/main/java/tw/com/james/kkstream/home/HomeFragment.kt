@@ -14,8 +14,6 @@ import tw.com.james.kkstream.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
-
-    private lateinit var viewModel: HomeViewModel
     private lateinit var mediator: TabLayoutMediator
 
     override fun onCreateView(
@@ -39,11 +37,4 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }

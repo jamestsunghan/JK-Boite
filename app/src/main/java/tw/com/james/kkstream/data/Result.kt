@@ -1,0 +1,48 @@
+package tw.com.james.kkstream.data
+
+import androidx.lifecycle.MutableLiveData
+import tw.com.james.kkstream.StreamApp
+import java.lang.Exception
+
+sealed class Result<out R> {
+    data class Success<out T>(val data: T): Result<T>()
+    data class Fail(val error: String): Result<Nothing>()
+    data class Error(val exception: Exception): Result<Nothing>()
+    object Loading: Result<Nothing>()
+
+    override fun toString(): String {
+        return when(this){
+            is Success<*> -> "Success[result=$data]"
+            is Fail       -> "Fail[error=$error]"
+            is Error      -> "Fail[exception=$exception]"
+            Loading       -> "Loading"
+        }
+    }
+
+    fun handleResultWith(error: MutableLiveData<String>, status: MutableLiveData<LoadStatus>): R?{
+        status.value = LoadStatus.LOADING
+
+        return when(this){
+            is Success ->{
+                error.value = null
+                status.value = LoadStatus.DONE
+                data
+            }
+            is Fail ->{
+                error.value = this.error
+                status.value = LoadStatus.ERROR
+                null
+            }
+            is Error ->{
+                error.value = this.exception.toString()
+                status.value = LoadStatus.ERROR
+                null
+            }
+            else ->{
+                error.value = StreamApp.instance.getString(tw.com.james.kkstream.R.string.not_here)
+                status.value = LoadStatus.ERROR
+                null
+            }
+        }
+    }
+}

@@ -25,6 +25,7 @@ class RankingFragment : Fragment() {
         val binding: FragmentRankingBinding = DataBindingUtil
             .inflate(inflater,R.layout.fragment_ranking, container, false)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         return binding.root
     }
