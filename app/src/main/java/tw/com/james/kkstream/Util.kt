@@ -9,7 +9,6 @@ object Util {
 
     var token: String? = null
 
-
     @SuppressLint("MissingPermission")
     fun isInternetConnected(): Boolean {
         val cm = StreamApp.instance

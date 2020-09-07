@@ -33,7 +33,7 @@ class RankingViewModel(private val repo: StreamRepository) : ViewModel() {
         }
     }
 
-    fun getChart(token: String){
+    private fun getChart(token: String){
         viewModelScope.launch {
             val result = repo.getChartPlaylists(token).handleResultWith(_error, _status)
             result?.let{
@@ -44,7 +44,7 @@ class RankingViewModel(private val repo: StreamRepository) : ViewModel() {
         }
     }
 
-    fun getToken(){
+    private fun getToken(){
         viewModelScope.launch {
 
             val result = repo.getToken().handleResultWith(_error, _status)

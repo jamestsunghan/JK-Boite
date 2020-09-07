@@ -1,6 +1,5 @@
 package tw.com.james.kkstream.ranking
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import tw.com.james.kkstream.ext.getVMFactory
 
 class RankingFragment : Fragment() {
 
-
     private val viewModel: RankingViewModel by viewModels{ getVMFactory() }
 
     override fun onCreateView(
@@ -26,6 +24,8 @@ class RankingFragment : Fragment() {
             .inflate(inflater,R.layout.fragment_ranking, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        binding.recyclerChart.adapter = RankingAdapter()
 
         return binding.root
     }
