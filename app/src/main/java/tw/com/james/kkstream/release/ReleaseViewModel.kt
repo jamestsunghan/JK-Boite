@@ -71,7 +71,6 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
             Log.d("JJ","indie ${result?.albums?.data}")
 
-
             result?.let{
                 _fPlayList.value = result.albums.data
             }

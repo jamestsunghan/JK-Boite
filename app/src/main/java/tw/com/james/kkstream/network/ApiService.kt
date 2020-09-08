@@ -10,6 +10,7 @@ import retrofit2.http.*
 import tw.com.james.kkstream.R
 import tw.com.james.kkstream.StreamApp
 import tw.com.james.kkstream.data.ChartResult
+import tw.com.james.kkstream.data.PlaylistTracksResult
 import tw.com.james.kkstream.data.ReleaseResult
 import tw.com.james.kkstream.data.TokenResult
 
@@ -55,12 +56,29 @@ interface KKBOXOpenApiService{
         @Query("limit") limit: Int = 10
     ): ChartResult
 
+    @GET("{domain}/{id}/tracks")
+    suspend fun getPlaylistTracks(
+        @Header("Authorization") token: String,
+        @Path("domain")domain: String,
+        @Path("id")id: String,
+        @Query("territory")terr: String = "TW",
+        @Query("limit") limit: Int = 1000
+    ): PlaylistTracksResult
+
     @GET("charts")
     suspend fun getChartPlaylists(
         @Header("Authorization") token: String,
         @Query("territory")terr: String = "TW",
         @Query("limit") limit: Int = 10
     ): ChartResult
+
+    @GET("charts/{id}/tracks")
+    suspend fun getChartPlaylistTracks(
+        @Header("Authorization") token: String,
+        @Path("id")id: String,
+        @Query("territory")terr: String = "TW",
+        @Query("limit") limit: Int = 1000
+    ): PlaylistTracksResult
 }
 
 interface KKBOXAccountApiService{
