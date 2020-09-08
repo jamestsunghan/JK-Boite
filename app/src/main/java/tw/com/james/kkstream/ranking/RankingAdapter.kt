@@ -9,11 +9,13 @@ import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.databinding.ItemRankingBinding
 
 class RankingAdapter: ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffCallback) {
+
     class RankingViewHolder(private val binding: ItemRankingBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(chart: Chart){
             binding.chart = chart
             binding.detail = chart.owner.name + "@" + chart.updatedAt.take(10)
+            binding.executePendingBindings()
         }
     }
     companion object DiffCallback: DiffUtil.ItemCallback<Chart>(){

@@ -44,9 +44,16 @@ interface KKBOXOpenApiService{
     @GET("new-release-categories/{category}")
     suspend fun getIndieMusic(
         @Header("Authorization") token: String,
-        @Path("category") category: String = "Ksfvcl5NAnG7pjDuca",
+        @Path("category") category: String = "Cng5IUIQhxb8w1cbsz",
         @Query("territory")terr: String = "TW"
     ): ReleaseResult
+
+    @GET("featured-playlists")
+    suspend fun getFeaturedPlaylists(
+        @Header("Authorization") token: String,
+        @Query("territory")terr: String = "TW",
+        @Query("limit") limit: Int = 10
+    ): ChartResult
 
     @GET("charts")
     suspend fun getChartPlaylists(

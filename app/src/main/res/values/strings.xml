@@ -2,4 +2,6 @@
     <string name="app_name">KK Stream</string>
     <string name="not_here">you are not suppose to be here</string>
     <string name="no_internet">您尚未連接到網路</string>
+    <string name="new_album">最新發行專輯</string>
+    <string name="new_playlist">近期精選歌單</string>
 </resources>

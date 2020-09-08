@@ -4,9 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Paging (
-    val offset: Int,
-    val limit: Int,
-    val previous: String?,
-    val next: String?
+data class AlbumResult (
+    val data: List<Album>,
+    val paging: Paging,
+    val summary: Summary
 ): Parcelable

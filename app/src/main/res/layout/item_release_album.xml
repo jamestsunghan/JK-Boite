@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="album"
+            type="tw.com.james.kkstream.data.Album" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cover_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:imageUrl="@{album.images[0].url}"/>
+
+        <TextView
+            android:id="@+id/chart_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{album.name}"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/cover_image"
+            app:layout_constraintEnd_toEndOf="@+id/cover_image"
+            app:layout_constraintTop_toBottomOf="@+id/cover_image"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
