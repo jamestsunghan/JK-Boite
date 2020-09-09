@@ -1,9 +1,6 @@
 package tw.com.james.kkstream.data.source
 
-import tw.com.james.kkstream.data.ChartResult
-import tw.com.james.kkstream.data.ReleaseResult
-import tw.com.james.kkstream.data.Result
-import tw.com.james.kkstream.data.TokenResult
+import tw.com.james.kkstream.data.*
 
 interface StreamDataSource {
 
@@ -13,6 +10,8 @@ interface StreamDataSource {
 
     suspend fun getFeaturedPlaylists(token: String): Result<ChartResult>
 
-    suspend fun getIndieMusic(token: String): Result<ReleaseResult>
+    suspend fun getIndieMusic(token: String): Result<AlbumResult>
+
+    suspend fun getTracks(token: String, domain: PlaylistDomain): Result<PlaylistTracksResult>
 
 }

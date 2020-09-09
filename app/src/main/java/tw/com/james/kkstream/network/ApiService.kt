@@ -9,10 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 import tw.com.james.kkstream.R
 import tw.com.james.kkstream.StreamApp
-import tw.com.james.kkstream.data.ChartResult
-import tw.com.james.kkstream.data.PlaylistTracksResult
-import tw.com.james.kkstream.data.ReleaseResult
-import tw.com.james.kkstream.data.TokenResult
+import tw.com.james.kkstream.data.*
 
 private const val BASE_URL = "https://api.kkbox.com/v1.1/"
 private const val HOST_URL = "https://account.kkbox.com/"
@@ -42,12 +39,12 @@ private val retrofitHost = Retrofit.Builder()
 
 interface KKBOXOpenApiService{
 
-    @GET("new-release-categories/{category}")
+    @GET("new-release-categories/{category}/albums")
     suspend fun getIndieMusic(
         @Header("Authorization") token: String,
         @Path("category") category: String = "Cng5IUIQhxb8w1cbsz",
         @Query("territory")terr: String = "TW"
-    ): ReleaseResult
+    ): AlbumResult
 
     @GET("featured-playlists")
     suspend fun getFeaturedPlaylists(
@@ -62,7 +59,7 @@ interface KKBOXOpenApiService{
         @Path("domain")domain: String,
         @Path("id")id: String,
         @Query("territory")terr: String = "TW",
-        @Query("limit") limit: Int = 1000
+        @Query("limit") limit: Int = 100
     ): PlaylistTracksResult
 
     @GET("charts")

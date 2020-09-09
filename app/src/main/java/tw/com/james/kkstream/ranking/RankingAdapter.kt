@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.databinding.ItemRankingBinding
 
-class RankingAdapter: ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffCallback) {
+class RankingAdapter(val onClickListener: OnClickListener)
+    : ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffCallback) {
 
     class RankingViewHolder(private val binding: ItemRankingBinding)
         : RecyclerView.ViewHolder(binding.root){
@@ -29,6 +30,7 @@ class RankingAdapter: ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffC
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankingViewHolder {
+
         return RankingViewHolder(
             ItemRankingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
@@ -36,5 +38,12 @@ class RankingAdapter: ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffC
 
     override fun onBindViewHolder(holder: RankingViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(getItem(position))
+        }
+    }
+
+    class OnClickListener(private val clickListener: (chart: Chart) -> Unit){
+        fun onClick(chart: Chart) = clickListener(chart)
     }
 }

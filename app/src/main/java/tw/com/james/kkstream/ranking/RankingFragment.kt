@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 import tw.com.james.kkstream.R
+import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.databinding.FragmentRankingBinding
 import tw.com.james.kkstream.ext.getVMFactory
+import tw.com.james.kkstream.home.HomeFragmentDirections
 
 class RankingFragment : Fragment() {
 
@@ -25,7 +29,19 @@ class RankingFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerChart.adapter = RankingAdapter()
+        binding.recyclerChart.adapter = RankingAdapter(RankingAdapter.OnClickListener{chart->
+            val domain = PlaylistDomain.CHART.apply {
+                setPlayId(chart.id)
+            }
+            viewModel.watchTracks(domain)
+        })
+
+        viewModel.tracksDomain.observe(viewLifecycleOwner, Observer{
+            it?.let{domain->
+                findNavController()
+                    .navigate(HomeFragmentDirections.actionGlobalAlbumFragment(domain))
+            }
+        })
 
         return binding.root
     }

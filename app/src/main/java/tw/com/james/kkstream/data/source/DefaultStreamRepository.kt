@@ -1,9 +1,6 @@
 package tw.com.james.kkstream.data.source
 
-import tw.com.james.kkstream.data.ChartResult
-import tw.com.james.kkstream.data.ReleaseResult
-import tw.com.james.kkstream.data.Result
-import tw.com.james.kkstream.data.TokenResult
+import tw.com.james.kkstream.data.*
 
 class DefaultStreamRepository(private val remote: StreamDataSource): StreamRepository{
 
@@ -19,7 +16,14 @@ class DefaultStreamRepository(private val remote: StreamDataSource): StreamRepos
         return remote.getFeaturedPlaylists(token)
     }
 
-    override suspend fun getIndieMusic(token: String): Result<ReleaseResult> {
+    override suspend fun getIndieMusic(token: String): Result<AlbumResult> {
         return remote.getIndieMusic(token)
+    }
+
+    override suspend fun getTracks(
+        token: String,
+        domain: PlaylistDomain
+    ): Result<PlaylistTracksResult> {
+        return remote.getTracks(token, domain)
     }
 }

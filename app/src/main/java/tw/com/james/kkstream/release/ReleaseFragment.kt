@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 import tw.com.james.kkstream.R
 import tw.com.james.kkstream.databinding.FragmentReleaseBinding
 import tw.com.james.kkstream.ext.getVMFactory
+import tw.com.james.kkstream.home.HomeFragmentDirections
 
 class ReleaseFragment : Fragment() {
 
@@ -35,6 +37,13 @@ class ReleaseFragment : Fragment() {
         viewModel.releaseList.observe(viewLifecycleOwner, Observer{
             it?.let{list->
                 Log.d("JJ","release list ${list.size}")
+            }
+        })
+
+        viewModel.tracksDomain.observe(viewLifecycleOwner, Observer{
+            it?.let{domain->
+                findNavController()
+                    .navigate(HomeFragmentDirections.actionGlobalAlbumFragment(domain))
             }
         })
 

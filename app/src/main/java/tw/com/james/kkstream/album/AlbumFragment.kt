@@ -1,6 +1,5 @@
 package tw.com.james.kkstream.album
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,11 @@ import tw.com.james.kkstream.ext.getVMFactory
 
 class AlbumFragment : Fragment() {
 
-    private val viewModel: AlbumViewModel by viewModels{ getVMFactory() }
+    private val viewModel: AlbumViewModel by viewModels {
+        getVMFactory(
+            AlbumFragmentArgs.fromBundle(requireArguments()).tracksKey
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

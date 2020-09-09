@@ -7,6 +7,7 @@ import tw.com.james.kkstream.Util.token
 import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.data.LoadStatus
+import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.data.source.StreamRepository
 import tw.com.james.kkstream.ext.addToReleaseItem
 import tw.com.james.kkstream.ext.toReleaseItem
@@ -29,6 +30,10 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
     val fPlayList: LiveData<List<Album>>
         get() = _fPlayList
 
+    private val _tracksDomain = MutableLiveData<PlaylistDomain>()
+    val tracksDomain: LiveData<PlaylistDomain>
+        get() = _tracksDomain
+
     val releaseList = MediatorLiveData<List<Release>>().apply{
         addSource(chartList){
             it?.let{charts->
@@ -40,6 +45,12 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
                 value = albums.addToReleaseItem(chartList.value?: listOf())
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        releaseList.removeSource(chartList)
+        releaseList.removeSource(fPlayList)
     }
 
     init{
@@ -69,10 +80,10 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
         viewModelScope.launch {
             val result = repo.getIndieMusic(token).handleResultWith(_error, _status)
 
-            Log.d("JJ","indie ${result?.albums?.data}")
+            Log.d("JJ","indie ${result?.data}")
 
             result?.let{
-                _fPlayList.value = result.albums.data
+                _fPlayList.value = result.data
             }
         }
     }
@@ -88,6 +99,10 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
                 getFeaturedPlaylists(token as String)
             }
         }
+    }
+
+    fun watchTracks(domain: PlaylistDomain){
+        _tracksDomain.value = domain
     }
 
 }

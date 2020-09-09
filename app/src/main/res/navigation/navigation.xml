@@ -10,5 +10,9 @@
     <fragment
         android:id="@+id/albumFragment"
         android:name="tw.com.james.kkstream.album.AlbumFragment"
-        android:label="AlbumFragment" /><action android:id="@+id/action_global_albumFragment" app:destination="@id/albumFragment"/>
+        android:label="AlbumFragment" >
+        <argument
+            android:name="tracksKey"
+            app:argType="tw.com.james.kkstream.data.PlaylistDomain" />
+    </fragment><action android:id="@+id/action_global_albumFragment" app:destination="@id/albumFragment"/>
 </navigation>
