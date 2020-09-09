@@ -1,4 +1,4 @@
-package tw.com.james.kkstream.album
+package tw.com.james.kkstream.playlist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,14 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 
 import tw.com.james.kkstream.R
-import tw.com.james.kkstream.databinding.FragmentAlbumBinding
+import tw.com.james.kkstream.databinding.FragmentPlaylistBinding
+
 import tw.com.james.kkstream.ext.getVMFactory
 
-class AlbumFragment : Fragment() {
+class PlaylistFragment : Fragment() {
 
-    private val viewModel: AlbumViewModel by viewModels {
+    private val viewModel: PlaylistViewModel by viewModels {
         getVMFactory(
-            AlbumFragmentArgs.fromBundle(requireArguments()).tracksKey
+            PlaylistFragmentArgs.fromBundle(requireArguments()).tracksKey
         )
     }
 
@@ -24,10 +25,13 @@ class AlbumFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentAlbumBinding = DataBindingUtil
-            .inflate(inflater, R.layout.fragment_album, container, false)
+        val binding: FragmentPlaylistBinding = DataBindingUtil
+            .inflate(inflater, R.layout.fragment_playlist, container, false)
         binding.lifecycleOwner = this
+
         binding.viewModel = viewModel
+
+        binding.recyclerPlaylist.adapter = PlaylistAdapter()
 
         return binding.root
     }

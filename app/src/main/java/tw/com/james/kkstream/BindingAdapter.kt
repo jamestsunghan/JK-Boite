@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.Chart
+import tw.com.james.kkstream.playlist.PlaylistAdapter
+import tw.com.james.kkstream.playlist.TrackListItem
 import tw.com.james.kkstream.ranking.RankingAdapter
 import tw.com.james.kkstream.release.AlbumAdapter
 import tw.com.james.kkstream.release.Release
@@ -36,6 +38,15 @@ fun submitAlbumList(recyclerView: RecyclerView, list: List<Album>?){
     list?.let{
         when(val adapter = recyclerView.adapter){
             is AlbumAdapter -> adapter.submitList(it)
+        }
+    }
+}
+
+@BindingAdapter("trackList")
+fun submitTrackList(recyclerView: RecyclerView, list: List<TrackListItem>?){
+    list?.let{
+        when(val adapter = recyclerView.adapter){
+            is PlaylistAdapter -> adapter.submitList(it)
         }
     }
 }

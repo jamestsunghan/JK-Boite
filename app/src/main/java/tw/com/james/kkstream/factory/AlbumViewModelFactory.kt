@@ -2,7 +2,7 @@ package tw.com.james.kkstream.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import tw.com.james.kkstream.album.AlbumViewModel
+import tw.com.james.kkstream.playlist.PlaylistViewModel
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.data.source.StreamRepository
 
@@ -14,8 +14,8 @@ class AlbumViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         with(modelClass){
             when{
-                isAssignableFrom(AlbumViewModel::class.java) ->
-                    AlbumViewModel(repo, domain)
+                isAssignableFrom(PlaylistViewModel::class.java) ->
+                    PlaylistViewModel(repo, domain)
                 else -> throw IllegalArgumentException("Unknown ViewModel Class ${modelClass.name}")
             }
         } as T

@@ -1,6 +1,5 @@
 package tw.com.james.kkstream.home
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,8 +32,7 @@ class HomeFragment : Fragment() {
         )
 
         mediator.attach()
-
-
+        
         return binding.root
     }
 }

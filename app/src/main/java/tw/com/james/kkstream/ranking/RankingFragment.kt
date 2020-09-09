@@ -31,7 +31,8 @@ class RankingFragment : Fragment() {
 
         binding.recyclerChart.adapter = RankingAdapter(RankingAdapter.OnClickListener{chart->
             val domain = PlaylistDomain.CHART.apply {
-                setPlayId(chart.id)
+                id = chart.id
+                cover = chart.images.last().url
             }
             viewModel.watchTracks(domain)
         })

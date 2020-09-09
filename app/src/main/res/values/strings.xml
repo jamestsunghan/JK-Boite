@@ -4,4 +4,5 @@
     <string name="no_internet">您尚未連接到網路</string>
     <string name="new_album">最新發行專輯</string>
     <string name="new_playlist">近期精選歌單</string>
+    <string name="tracks_title">歌曲列表</string>
 </resources>

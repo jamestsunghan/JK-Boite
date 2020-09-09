@@ -2,7 +2,6 @@ package tw.com.james.kkstream.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import tw.com.james.kkstream.album.AlbumViewModel
 import tw.com.james.kkstream.data.source.StreamRepository
 import tw.com.james.kkstream.ranking.RankingViewModel
 import tw.com.james.kkstream.release.ReleaseViewModel

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.databinding.ItemReleaseBinding
 import tw.com.james.kkstream.databinding.ItemReleaseHeaderBinding
@@ -63,9 +62,4 @@ class ReleaseAdapter: ListAdapter<Release, RecyclerView.ViewHolder>(DiffCallback
             is ReleaseViewHolder -> holder.bind((getItem(position) as Release.PlayListItem).play)
         }
     }
-}
-
-sealed class Release{
-    data class AlbumItem(val albums: List<Album>): Release()
-    data class PlayListItem(val play: Chart): Release()
 }
