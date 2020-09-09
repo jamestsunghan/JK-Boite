@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import tw.com.james.kkstream.Util.token
+import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.LoadStatus
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.data.Track
@@ -34,7 +35,13 @@ class PlaylistViewModel(private val repo: StreamRepository, private val domain: 
             val result = repo.getTracks(token as String, domain).handleResultWith(_error, _status)
             result?.let{
                 _trackList.value = listOf(TrackListItem.CoverItem(domain.cover)) + it.data.map{track->
-                    TrackListItem.TrackItem(track)
+                    if(domain == PlaylistDomain.ALBUM){
+                        TrackListItem.TrackItem(track.apply {
+                            album = domain.album
+                        })
+                    }else{
+                        TrackListItem.TrackItem(track)
+                    }
                 }
             }
         }

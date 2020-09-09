@@ -22,7 +22,7 @@ class PlaylistAdapter : ListAdapter<TrackListItem, RecyclerView.ViewHolder>(Diff
         RecyclerView.ViewHolder(binding.root) {
         fun bind(track: Track) {
             binding.track = track
-            binding.detail = track.album.artist.name + "@" + track.album.releaseDate
+            binding.detail = track.album?.artist?.name + "@" + track.album?.releaseDate
             binding.executePendingBindings()
         }
     }

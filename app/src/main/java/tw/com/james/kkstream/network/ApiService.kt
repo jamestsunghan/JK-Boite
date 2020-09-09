@@ -42,7 +42,7 @@ interface KKBOXOpenApiService{
     @GET("new-release-categories/{category}/albums")
     suspend fun getIndieMusic(
         @Header("Authorization") token: String,
-        @Path("category") category: String = "Cng5IUIQhxb8w1cbsz",
+        @Path("category") category: String = "KrdH2LdyUKS8z2aoxX",
         @Query("territory")terr: String = "TW"
     ): AlbumResult
 

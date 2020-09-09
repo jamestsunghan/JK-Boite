@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.databinding.ItemReleaseAlbumBinding
 
-class AlbumAdapter: ListAdapter<Album, AlbumAdapter.AlbumViewHolder>(DiffCallback) {
+class AlbumAdapter(val onClickListener: OnClickListener): ListAdapter<Album, AlbumAdapter.AlbumViewHolder>(DiffCallback) {
 
     class AlbumViewHolder(private val binding: ItemReleaseAlbumBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(album: Album){
             binding.album = album
+            binding.executePendingBindings()
         }
     }
 
@@ -33,5 +34,12 @@ class AlbumAdapter: ListAdapter<Album, AlbumAdapter.AlbumViewHolder>(DiffCallbac
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(getItem(position))
+        }
+    }
+
+    class OnClickListener(val clickListener: (album: Album)-> Unit){
+        fun onClick(album: Album) = clickListener(album)
     }
 }

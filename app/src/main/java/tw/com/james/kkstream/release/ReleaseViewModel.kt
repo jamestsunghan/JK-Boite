@@ -34,15 +34,19 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
     val tracksDomain: LiveData<PlaylistDomain>
         get() = _tracksDomain
 
-    val releaseList = MediatorLiveData<List<Release>>().apply{
-        addSource(chartList){
-            it?.let{charts->
+    private val _albumSelected = MutableLiveData<Album>()
+    val albumSelected: LiveData<Album>
+        get() = _albumSelected
+
+    val releaseList = MediatorLiveData<List<Release>>().apply {
+        addSource(chartList) {
+            it?.let { charts ->
                 value = charts.toReleaseItem(fPlayList.value ?: listOf())
             }
         }
-        addSource(fPlayList){
-            it?.let{albums->
-                value = albums.addToReleaseItem(chartList.value?: listOf())
+        addSource(fPlayList) {
+            it?.let { albums ->
+                value = albums.addToReleaseItem(chartList.value ?: listOf())
             }
         }
     }
@@ -53,8 +57,8 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
         releaseList.removeSource(fPlayList)
     }
 
-    init{
-        if(token == null){
+    init {
+        if (token == null) {
             getToken()
         } else {
             getIndieMusic(token as String)
@@ -62,38 +66,38 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
         }
     }
 
-    private fun getFeaturedPlaylists(token: String){
+    private fun getFeaturedPlaylists(token: String) {
         viewModelScope.launch {
             val result = repo.getFeaturedPlaylists(token).handleResultWith(_error, _status)
 
-            Log.d("JJ","feature list ${result?.data}")
+            Log.d("JJ", "feature list ${result?.data}")
 
-            result?.let{
+            result?.let {
                 _chartList.value = result.data
             }
-            Log.d("JJ","${result?.data}")
+            Log.d("JJ", "${result?.data}")
 
         }
     }
 
-    fun getIndieMusic(token: String){
+    fun getIndieMusic(token: String) {
         viewModelScope.launch {
             val result = repo.getIndieMusic(token).handleResultWith(_error, _status)
 
-            Log.d("JJ","indie ${result?.data}")
+            Log.d("JJ", "indie ${result?.data}")
 
-            result?.let{
+            result?.let {
                 _fPlayList.value = result.data
             }
         }
     }
 
-    private fun getToken(){
+    private fun getToken() {
         viewModelScope.launch {
 
             val result = repo.getToken().handleResultWith(_error, _status)
 
-            result?.let{
+            result?.let {
                 token = result.type + " " + result.token
                 getIndieMusic(token as String)
                 getFeaturedPlaylists(token as String)
@@ -101,7 +105,7 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
         }
     }
 
-    fun watchTracks(domain: PlaylistDomain){
+    fun watchTracks(domain: PlaylistDomain) {
         _tracksDomain.value = domain
     }
 

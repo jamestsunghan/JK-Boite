@@ -18,27 +18,27 @@ import tw.com.james.kkstream.home.HomeFragmentDirections
 
 class RankingFragment : Fragment() {
 
-    private val viewModel: RankingViewModel by viewModels{ getVMFactory() }
+    private val viewModel: RankingViewModel by viewModels { getVMFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentRankingBinding = DataBindingUtil
-            .inflate(inflater,R.layout.fragment_ranking, container, false)
+            .inflate(inflater, R.layout.fragment_ranking, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerChart.adapter = RankingAdapter(RankingAdapter.OnClickListener{chart->
-            val domain = PlaylistDomain.CHART.apply {
+        binding.recyclerChart.adapter = RankingAdapter(RankingAdapter.OnClickListener { chart ->
+
+            viewModel.watchTracks(PlaylistDomain.CHART.apply {
                 id = chart.id
                 cover = chart.images.last().url
-            }
-            viewModel.watchTracks(domain)
+            })
         })
 
-        viewModel.tracksDomain.observe(viewLifecycleOwner, Observer{
-            it?.let{domain->
+        viewModel.tracksDomain.observe(viewLifecycleOwner, Observer {
+            it?.let { domain ->
                 findNavController()
                     .navigate(HomeFragmentDirections.actionGlobalAlbumFragment(domain))
             }

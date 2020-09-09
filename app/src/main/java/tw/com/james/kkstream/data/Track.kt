@@ -14,5 +14,5 @@ data class Track (
     @Json(name = "track_number")val trackNumber: Int,
     val explicitness: Boolean,
     @Json(name = "available_territories")val availableTerr: List<String>,
-    val album: Album
+    var album: Album? = null
 ): Parcelable

@@ -1,19 +1,59 @@
 package tw.com.james.kkstream.release
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tw.com.james.kkstream.data.Chart
+import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.databinding.ItemReleaseBinding
 import tw.com.james.kkstream.databinding.ItemReleaseHeaderBinding
 
-class ReleaseAdapter: ListAdapter<Release, RecyclerView.ViewHolder>(DiffCallback) {
+class ReleaseAdapter(val onClickListener: OnClickListener, val viewModel: ReleaseViewModel)
+    : ListAdapter<Release, RecyclerView.ViewHolder>(DiffCallback) {
     class HeaderViewHolder(val binding: ItemReleaseHeaderBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(albums: Release.AlbumItem){
+        fun bind(albums: Release.AlbumItem, viewModel: ReleaseViewModel){
             binding.albumItem = albums
-            binding.recyclerAlbum.adapter = AlbumAdapter()
+            binding.recyclerAlbum.adapter = AlbumAdapter(AlbumAdapter.OnClickListener {album->
+                viewModel.watchTracks(PlaylistDomain.ALBUM.apply {
+                    id = album.id
+                    cover = album.images.last().url
+                    this.album = album
+                })
+            })
+
+            binding.recyclerAlbum.addOnItemTouchListener(object: RecyclerView.OnItemTouchListener {
+                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+                }
+
+                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                    val canScrollHZ = rv.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)
+
+                    if(canScrollHZ){
+                        when(e.action){
+                            MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
+                        }
+                    } else {
+                        when(e.action){
+                            MotionEvent.ACTION_MOVE -> {
+//                                if(e.x < e.getHistoricalX(1)){
+//                                    rv.parent.requestDisallowInterceptTouchEvent(false)
+//                                }
+                            }
+                        }
+
+                    }
+
+
+                    return false
+                }
+
+                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+                }
+
+            })
             binding.executePendingBindings()
         }
     }
@@ -58,8 +98,18 @@ class ReleaseAdapter: ListAdapter<Release, RecyclerView.ViewHolder>(DiffCallback
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
-            is HeaderViewHolder -> holder.bind(getItem(position) as Release.AlbumItem)
-            is ReleaseViewHolder -> holder.bind((getItem(position) as Release.PlayListItem).play)
+            is HeaderViewHolder -> holder.bind(getItem(position) as Release.AlbumItem, viewModel)
+            is ReleaseViewHolder -> {
+                val chart = (getItem(position) as Release.PlayListItem).play
+                holder.bind(chart)
+                holder.itemView.setOnClickListener {
+                    onClickListener.onClick(chart)
+                }
+            }
         }
+    }
+
+    class OnClickListener(private val clicklistener: (chart: Chart) -> Unit){
+        fun onClick(chart: Chart) = clicklistener(chart)
     }
 }

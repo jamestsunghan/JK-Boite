@@ -2,6 +2,7 @@ package tw.com.james.kkstream.ext
 
 import androidx.fragment.app.Fragment
 import tw.com.james.kkstream.StreamApp
+import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.factory.AlbumViewModelFactory
 import tw.com.james.kkstream.factory.ViewModelFactory

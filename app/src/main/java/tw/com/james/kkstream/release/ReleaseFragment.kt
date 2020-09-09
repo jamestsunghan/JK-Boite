@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 
 import tw.com.james.kkstream.R
+import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.databinding.FragmentReleaseBinding
 import tw.com.james.kkstream.ext.getVMFactory
 import tw.com.james.kkstream.home.HomeFragmentDirections
@@ -32,7 +35,12 @@ class ReleaseFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.recyclerRelease.adapter = ReleaseAdapter()
+        binding.recyclerRelease.adapter = ReleaseAdapter(ReleaseAdapter.OnClickListener{featured->
+            viewModel.watchTracks(PlaylistDomain.FEATURED.apply {
+                id = featured.id
+                cover = featured.images.last().url
+            })
+        }, viewModel)
 
         viewModel.releaseList.observe(viewLifecycleOwner, Observer{
             it?.let{list->

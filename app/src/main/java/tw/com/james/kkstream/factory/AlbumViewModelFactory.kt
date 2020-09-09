@@ -2,6 +2,7 @@ package tw.com.james.kkstream.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.playlist.PlaylistViewModel
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.data.source.StreamRepository
