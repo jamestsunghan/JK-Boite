@@ -9,7 +9,8 @@ import tw.com.james.kkstream.data.Track
 import tw.com.james.kkstream.databinding.ItemPlaylistHeaderBinding
 import tw.com.james.kkstream.databinding.ItemPlaylistTrackBinding
 
-class PlaylistAdapter : ListAdapter<TrackListItem, RecyclerView.ViewHolder>(DiffCallback) {
+class PlaylistAdapter(private val onClickListener: OnClickListener) : ListAdapter<TrackListItem, RecyclerView.ViewHolder>(DiffCallback) {
+
     class CoverViewHolder(private val binding: ItemPlaylistHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(url: String) {
@@ -65,8 +66,18 @@ class PlaylistAdapter : ListAdapter<TrackListItem, RecyclerView.ViewHolder>(Diff
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CoverViewHolder -> holder.bind((getItem(position) as TrackListItem.CoverItem).url)
-            is TrackViewHolder -> holder.bind((getItem(position) as TrackListItem.TrackItem).track)
+            is TrackViewHolder -> {
+                val track = (getItem(position) as TrackListItem.TrackItem).track
+                holder.bind(track)
+                holder.itemView.setOnClickListener {
+                    onClickListener.onClick(track)
+                }
+            }
         }
+    }
+
+    class OnClickListener(val clicklistener: (track: Track) -> Unit){
+        fun onClick(track: Track) = clicklistener(track)
     }
 }
 

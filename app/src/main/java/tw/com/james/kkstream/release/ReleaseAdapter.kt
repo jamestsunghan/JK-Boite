@@ -23,30 +23,28 @@ class ReleaseAdapter(val onClickListener: OnClickListener, val viewModel: Releas
                     this.album = album
                 })
             })
+            var lastX = 0F
 
             binding.recyclerAlbum.addOnItemTouchListener(object: RecyclerView.OnItemTouchListener {
                 override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
                 }
 
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    val canScrollHZ = rv.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)
 
-                    if(canScrollHZ){
-                        when(e.action){
-                            MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
+                    when(e.action){
+                        MotionEvent.ACTION_DOWN ->{
+                            lastX = e.x
                         }
-                    } else {
-                        when(e.action){
-                            MotionEvent.ACTION_MOVE -> {
-//                                if(e.x < e.getHistoricalX(1)){
-//                                    rv.parent.requestDisallowInterceptTouchEvent(false)
-//                                }
-                            }
-                        }
+                        MotionEvent.ACTION_MOVE -> {
+                            val isScrollRight = e.x < lastX
 
+                            val canScrollRight = rv.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)
+
+                            rv.parent.requestDisallowInterceptTouchEvent(
+                                !isScrollRight || canScrollRight
+                            )
+                        }
                     }
-
-
                     return false
                 }
 

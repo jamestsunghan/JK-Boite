@@ -20,7 +20,6 @@ sealed class Result<out R> {
     }
 
     fun handleResultWith(error: MutableLiveData<String>, status: MutableLiveData<LoadStatus>): R?{
-        status.value = LoadStatus.LOADING
 
         return when(this){
             is Success ->{

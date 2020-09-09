@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 
 import tw.com.james.kkstream.R
 import tw.com.james.kkstream.databinding.FragmentPlaylistBinding
@@ -31,7 +32,11 @@ class PlaylistFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.recyclerPlaylist.adapter = PlaylistAdapter()
+        binding.recyclerPlaylist.adapter = PlaylistAdapter(PlaylistAdapter.OnClickListener{track->
+            findNavController().navigate(
+                PlaylistFragmentDirections.actionAlbumFragmentToSongFragment(track.url)
+            )
+        })
 
         return binding.root
     }

@@ -40,6 +40,9 @@ class RankingViewModel(private val repo: StreamRepository) : ViewModel() {
 
     private fun getChart(token: String){
         viewModelScope.launch {
+
+            _status.value = LoadStatus.LOADING
+
             val result = repo.getChartPlaylists(token).handleResultWith(_error, _status)
             result?.let{
                 _chartList.value = result.data

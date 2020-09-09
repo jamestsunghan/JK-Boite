@@ -14,5 +14,16 @@
         <argument
             android:name="tracksKey"
             app:argType="tw.com.james.kkstream.data.PlaylistDomain" />
+        <action
+            android:id="@+id/action_albumFragment_to_songFragment"
+            app:destination="@id/songFragment" />
     </fragment><action android:id="@+id/action_global_albumFragment" app:destination="@id/albumFragment"/>
+    <fragment
+        android:id="@+id/songFragment"
+        android:name="tw.com.james.kkstream.song.SongFragment"
+        android:label="SongFragment" >
+        <argument
+            android:name="songUrlKey"
+            app:argType="string" />
+    </fragment>
 </navigation>

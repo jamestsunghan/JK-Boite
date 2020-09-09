@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import tw.com.james.kkstream.data.source.StreamRepository
 import tw.com.james.kkstream.ranking.RankingViewModel
 import tw.com.james.kkstream.release.ReleaseViewModel
+import tw.com.james.kkstream.song.SongViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(val repo: StreamRepository): ViewModelProvider.Factory{

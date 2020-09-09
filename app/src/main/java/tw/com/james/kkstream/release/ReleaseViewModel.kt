@@ -68,6 +68,9 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
     private fun getFeaturedPlaylists(token: String) {
         viewModelScope.launch {
+
+            _status.value = LoadStatus.LOADING
+
             val result = repo.getFeaturedPlaylists(token).handleResultWith(_error, _status)
 
             Log.d("JJ", "feature list ${result?.data}")
@@ -82,6 +85,9 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
     fun getIndieMusic(token: String) {
         viewModelScope.launch {
+
+            _status.value = LoadStatus.LOADING
+
             val result = repo.getIndieMusic(token).handleResultWith(_error, _status)
 
             Log.d("JJ", "indie ${result?.data}")
