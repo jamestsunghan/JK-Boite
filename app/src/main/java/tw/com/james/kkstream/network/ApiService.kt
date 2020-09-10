@@ -50,6 +50,7 @@ interface KKBOXOpenApiService{
     suspend fun getFeaturedPlaylists(
         @Header("Authorization") token: String,
         @Query("territory")terr: String = "TW",
+        @Query("offset")offset: Int = 0,
         @Query("limit") limit: Int = 10
     ): ChartResult
 
@@ -66,16 +67,10 @@ interface KKBOXOpenApiService{
     suspend fun getChartPlaylists(
         @Header("Authorization") token: String,
         @Query("territory")terr: String = "TW",
+        @Query("offset")offset: Int = 0,
         @Query("limit") limit: Int = 10
     ): ChartResult
 
-    @GET("charts/{id}/tracks")
-    suspend fun getChartPlaylistTracks(
-        @Header("Authorization") token: String,
-        @Path("id")id: String,
-        @Query("territory")terr: String = "TW",
-        @Query("limit") limit: Int = 1000
-    ): PlaylistTracksResult
 }
 
 interface KKBOXAccountApiService{

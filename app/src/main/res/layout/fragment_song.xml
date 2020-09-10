@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="tw.com.james.kkstream.song.SongViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -2,6 +2,11 @@ package tw.com.james.kkstream.release
 
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.paging.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import tw.com.james.kkstream.Util.token
 import tw.com.james.kkstream.data.Album
@@ -11,6 +16,8 @@ import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.data.source.StreamRepository
 import tw.com.james.kkstream.ext.addToReleaseItem
 import tw.com.james.kkstream.ext.toReleaseItem
+import tw.com.james.kkstream.network.KKBOXOpenApi
+import tw.com.james.kkstream.release.paging.ReleasedPagingSource
 
 class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
@@ -38,6 +45,15 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
     val albumSelected: LiveData<Album>
         get() = _albumSelected
 
+    val releaseFlow : Flow<PagingData<Release>> = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            initialLoadSize = 11
+        )
+    ){
+        ReleasedPagingSource(KKBOXOpenApi, "Bearer MqP_gZ-qjLOj-UearUtA8w==")
+    }.flow
+
     val releaseList = MediatorLiveData<List<Release>>().apply {
         addSource(chartList) {
             it?.let { charts ->
@@ -63,7 +79,19 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
         } else {
             getIndieMusic(token as String)
             getFeaturedPlaylists(token as String)
+//            pagingRelease(token as String)
         }
+    }
+
+    private fun pagingRelease(token: String){
+
+        Log.d("JJJ","token $token")
+
+        Pager(
+            config = PagingConfig(pageSize = 10)
+        ){
+            ReleasedPagingSource(KKBOXOpenApi, token)
+        }.flow
     }
 
     private fun getFeaturedPlaylists(token: String) {
@@ -107,6 +135,7 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
                 token = result.type + " " + result.token
                 getIndieMusic(token as String)
                 getFeaturedPlaylists(token as String)
+//                pagingRelease(token as String)
             }
         }
     }

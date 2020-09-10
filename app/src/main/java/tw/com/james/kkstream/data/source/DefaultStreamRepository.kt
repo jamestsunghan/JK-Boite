@@ -1,6 +1,15 @@
 package tw.com.james.kkstream.data.source
 
+import android.util.Log
+import androidx.lifecycle.asLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import tw.com.james.kkstream.data.*
+import tw.com.james.kkstream.network.KKBOXOpenApi
+import tw.com.james.kkstream.release.Release
+import tw.com.james.kkstream.release.paging.ReleasedPagingSource
 
 class DefaultStreamRepository(private val remote: StreamDataSource): StreamRepository{
 
@@ -25,5 +34,15 @@ class DefaultStreamRepository(private val remote: StreamDataSource): StreamRepos
         domain: PlaylistDomain
     ): Result<PlaylistTracksResult> {
         return remote.getTracks(token, domain)
+    }
+
+    override suspend fun getPagingChartPlaylists(token: String): Flow<PagingData<Release>> {
+        val flow = Pager(
+            config = PagingConfig(pageSize = 10)
+        ){
+            ReleasedPagingSource(KKBOXOpenApi, token)
+        }.flow
+        Log.d("JJ", "paging data in repo ${flow.asLiveData().value}")
+        return flow
     }
 }
