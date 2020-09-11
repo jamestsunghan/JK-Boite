@@ -24,15 +24,6 @@ fun submitChartList(recyclerView: RecyclerView, list: List<Chart>?){
     }
 }
 
-@BindingAdapter("releaseList")
-fun submitReleaseList(recyclerView: RecyclerView, list: List<Release>?){
-    list?.let{
-        when(val adapter = recyclerView.adapter){
-            is ReleaseAdapter -> adapter.submitList(it)
-        }
-    }
-}
-
 @BindingAdapter("albumList")
 fun submitAlbumList(recyclerView: RecyclerView, list: List<Album>?){
     list?.let{

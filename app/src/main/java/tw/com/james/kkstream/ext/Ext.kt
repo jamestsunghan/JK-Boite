@@ -1,5 +1,8 @@
 package tw.com.james.kkstream.ext
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.release.Release

@@ -31,14 +31,14 @@ class RankingViewModel(private val repo: StreamRepository) : ViewModel() {
         get() = _tracksDomain
 
     init{
-        if(token == null){
+        if(token.value == null){
             getToken()
         }else {
-            getChart(token as String)
+            getChart(token.value as String)
         }
     }
 
-    private fun getChart(token: String){
+    internal fun getChart(token: String){
         viewModelScope.launch {
 
             _status.value = LoadStatus.LOADING
@@ -52,14 +52,14 @@ class RankingViewModel(private val repo: StreamRepository) : ViewModel() {
         }
     }
 
-    private fun getToken(){
+    internal fun getToken(){
         viewModelScope.launch {
 
             val result = repo.getToken().handleResultWith(_error, _status)
 
             result?.let{
-                token = result.type + " " + result.token
-                getChart(token as String)
+                token.value = result.type + " " + result.token
+                getChart(token.value as String)
             }
         }
     }

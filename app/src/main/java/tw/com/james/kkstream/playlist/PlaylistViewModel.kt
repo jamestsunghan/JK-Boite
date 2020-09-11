@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import tw.com.james.kkstream.Util.token
-import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.LoadStatus
 import tw.com.james.kkstream.data.PlaylistDomain
-import tw.com.james.kkstream.data.Track
 import tw.com.james.kkstream.data.source.StreamRepository
 
 class PlaylistViewModel(private val repo: StreamRepository, private val domain: PlaylistDomain) : ViewModel() {
@@ -32,7 +30,8 @@ class PlaylistViewModel(private val repo: StreamRepository, private val domain: 
 
     private fun getTracks(domain: PlaylistDomain){
         viewModelScope.launch {
-            val result = repo.getTracks(token as String, domain).handleResultWith(_error, _status)
+            _status.value = LoadStatus.LOADING
+            val result = repo.getTracks(token.value as String, domain).handleResultWith(_error, _status)
             result?.let{
                 _trackList.value = listOf(TrackListItem.CoverItem(domain.cover)) + it.data.map{track->
                     if(domain == PlaylistDomain.ALBUM){

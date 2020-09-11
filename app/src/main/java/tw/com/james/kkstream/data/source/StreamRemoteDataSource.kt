@@ -10,9 +10,9 @@ import java.lang.Exception
 object StreamRemoteDataSource: StreamDataSource {
 
     override suspend fun getToken(): Result<TokenResult> {
-//        if(!Util.isInternetConnected()){
-//            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
-//        }
+        if(!Util.isInternetConnected()){
+            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+        }
 
         return try{
             val result = KKBOXOpenApi.accountService.getToken()
@@ -27,9 +27,9 @@ object StreamRemoteDataSource: StreamDataSource {
     }
 
     override suspend fun getChartPlaylists(token: String): Result<ChartResult> {
-//        if(!Util.isInternetConnected()){
-//            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
-//        }
+        if(!Util.isInternetConnected()){
+            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+        }
 
         return try{
             val result = KKBOXOpenApi.retrofitService.getChartPlaylists(token)
@@ -44,9 +44,9 @@ object StreamRemoteDataSource: StreamDataSource {
     }
 
     override suspend fun getFeaturedPlaylists(token: String): Result<ChartResult> {
-//        if(!Util.isInternetConnected()){
-//            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
-//        }
+        if(!Util.isInternetConnected()){
+            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+        }
 
         return try{
             val result = KKBOXOpenApi.retrofitService.getFeaturedPlaylists(token)
@@ -61,9 +61,9 @@ object StreamRemoteDataSource: StreamDataSource {
     }
 
     override suspend fun getIndieMusic(token: String): Result<AlbumResult> {
-//        if(!Util.isInternetConnected()){
-//            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
-//        }
+        if(!Util.isInternetConnected()){
+            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+        }
 
         return try{
             val result = KKBOXOpenApi.retrofitService.getIndieMusic(token)
@@ -81,6 +81,9 @@ object StreamRemoteDataSource: StreamDataSource {
         token: String,
         domain: PlaylistDomain
     ): Result<PlaylistTracksResult> {
+        if(!Util.isInternetConnected()){
+            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+        }
         return try{
             val result = KKBOXOpenApi.retrofitService.getPlaylistTracks(token = token, domain = domain.text, id = domain.id)
             result.error?.let{

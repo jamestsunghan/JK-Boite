@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import tw.com.james.kkstream.Util
 import tw.com.james.kkstream.Util.token
 import tw.com.james.kkstream.data.Album
 import tw.com.james.kkstream.data.Chart
@@ -45,14 +46,7 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
     val albumSelected: LiveData<Album>
         get() = _albumSelected
 
-    val releaseFlow : Flow<PagingData<Release>> = Pager(
-        config = PagingConfig(
-            pageSize = 10,
-            initialLoadSize = 11
-        )
-    ){
-        ReleasedPagingSource(KKBOXOpenApi, "Bearer MqP_gZ-qjLOj-UearUtA8w==")
-    }.flow
+    var releaseFlow : Flow<PagingData<Release>> = flowOf()
 
     val releaseList = MediatorLiveData<List<Release>>().apply {
         addSource(chartList) {
@@ -74,12 +68,8 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
     }
 
     init {
-        if (token == null) {
+        if (token.value == null) {
             getToken()
-        } else {
-            getIndieMusic(token as String)
-            getFeaturedPlaylists(token as String)
-//            pagingRelease(token as String)
         }
     }
 
@@ -87,43 +77,15 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
         Log.d("JJJ","token $token")
 
-        Pager(
-            config = PagingConfig(pageSize = 10)
+        releaseFlow = Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                initialLoadSize = 11
+            )
         ){
             ReleasedPagingSource(KKBOXOpenApi, token)
         }.flow
-    }
-
-    private fun getFeaturedPlaylists(token: String) {
-        viewModelScope.launch {
-
-            _status.value = LoadStatus.LOADING
-
-            val result = repo.getFeaturedPlaylists(token).handleResultWith(_error, _status)
-
-            Log.d("JJ", "feature list ${result?.data}")
-
-            result?.let {
-                _chartList.value = result.data
-            }
-            Log.d("JJ", "${result?.data}")
-
-        }
-    }
-
-    fun getIndieMusic(token: String) {
-        viewModelScope.launch {
-
-            _status.value = LoadStatus.LOADING
-
-            val result = repo.getIndieMusic(token).handleResultWith(_error, _status)
-
-            Log.d("JJ", "indie ${result?.data}")
-
-            result?.let {
-                _fPlayList.value = result.data
-            }
-        }
+        Util.token.value = token
     }
 
     private fun getToken() {
@@ -132,10 +94,9 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
             val result = repo.getToken().handleResultWith(_error, _status)
 
             result?.let {
-                token = result.type + " " + result.token
-                getIndieMusic(token as String)
-                getFeaturedPlaylists(token as String)
-//                pagingRelease(token as String)
+
+                pagingRelease(result.type + " " + result.token)
+
             }
         }
     }

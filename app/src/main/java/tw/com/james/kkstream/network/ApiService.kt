@@ -43,7 +43,9 @@ interface KKBOXOpenApiService{
     suspend fun getIndieMusic(
         @Header("Authorization") token: String,
         @Path("category") category: String = "KrdH2LdyUKS8z2aoxX",
-        @Query("territory")terr: String = "TW"
+        @Query("territory")terr: String = "TW",
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 12
     ): AlbumResult
 
     @GET("featured-playlists")

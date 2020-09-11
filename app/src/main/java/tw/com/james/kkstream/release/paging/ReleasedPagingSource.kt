@@ -3,7 +3,6 @@ package tw.com.james.kkstream.release.paging
 import android.util.Log
 import androidx.paging.PagingSource
 import retrofit2.HttpException
-import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.network.KKBOXOpenApi
 import tw.com.james.kkstream.release.Release
 import java.io.IOException

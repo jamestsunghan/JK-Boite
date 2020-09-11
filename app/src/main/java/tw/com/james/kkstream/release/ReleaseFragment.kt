@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.map
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.collect
@@ -55,19 +57,25 @@ class ReleaseFragment : Fragment() {
                 cover = featured.images.last().url
             })
         }, viewModel)
-
+        releaseAdapter.addLoadStateListener {loadState->
+            binding.progressRelease.isVisible = loadState.refresh is LoadState.Loading
+        }
 
         binding.recyclerRelease.adapter = releaseAdapter
 
 
+        token.observe(viewLifecycleOwner, Observer{
+            it?.let{
+                lifecycleScope.launch {
+                    viewModel.releaseFlow.collectLatest{pagingData->
+                        Log.d("JJ", "paging data $pagingData")
 
-        lifecycleScope.launch {
-            viewModel.releaseFlow.collectLatest{pagingData->
-                Log.d("JJ", "paging data $pagingData")
-
-                releaseAdapter.submitData(pagingData)
+                        releaseAdapter.submitData(pagingData)
+                    }
+                }
             }
-        }
+        })
+
 
         viewModel.releaseList.observe(viewLifecycleOwner, Observer{
             it?.let{list->
