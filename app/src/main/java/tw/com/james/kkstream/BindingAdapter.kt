@@ -12,8 +12,6 @@ import tw.com.james.kkstream.playlist.PlaylistAdapter
 import tw.com.james.kkstream.playlist.TrackListItem
 import tw.com.james.kkstream.ranking.RankingAdapter
 import tw.com.james.kkstream.release.AlbumAdapter
-import tw.com.james.kkstream.release.Release
-import tw.com.james.kkstream.release.ReleaseAdapter
 
 @BindingAdapter("chartList")
 fun submitChartList(recyclerView: RecyclerView, list: List<Chart>?){

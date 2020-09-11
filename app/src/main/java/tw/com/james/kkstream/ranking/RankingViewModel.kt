@@ -30,41 +30,45 @@ class RankingViewModel(private val repo: StreamRepository) : ViewModel() {
     val tracksDomain: LiveData<PlaylistDomain>
         get() = _tracksDomain
 
-    init{
-        if(token.value == null){
+    init {
+        if (token.value == null) {
             getToken()
-        }else {
+        } else {
             getChart(token.value as String)
         }
     }
 
-    internal fun getChart(token: String){
+    internal fun getChart(token: String) {
         viewModelScope.launch {
 
             _status.value = LoadStatus.LOADING
 
             val result = repo.getChartPlaylists(token).handleResultWith(_error, _status)
-            result?.let{
+            result?.let {
                 _chartList.value = result.data
             }
-            Log.d("JJ","${result?.data}")
+            Log.d("JJ", "${result?.data}")
 
         }
     }
 
-    internal fun getToken(){
+    internal fun getToken() {
         viewModelScope.launch {
 
             val result = repo.getToken().handleResultWith(_error, _status)
 
-            result?.let{
+            result?.let {
                 token.value = result.type + " " + result.token
                 getChart(token.value as String)
             }
         }
     }
 
-    fun watchTracks(domain: PlaylistDomain){
+    fun watchTracks(domain: PlaylistDomain) {
         _tracksDomain.value = domain
+    }
+
+    fun navigationComplete() {
+        _tracksDomain.value = null
     }
 }

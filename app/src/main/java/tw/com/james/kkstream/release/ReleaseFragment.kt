@@ -44,30 +44,34 @@ class ReleaseFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-//        binding.recyclerRelease.adapter = ReleaseAdapter(ReleaseAdapter.OnClickListener{featured->
-//            viewModel.watchTracks(PlaylistDomain.FEATURED.apply {
-//                id = featured.id
-//                cover = featured.images.last().url
-//            })
-//        }, viewModel)
-
-        val releaseAdapter = ReleasePagingAdapter(ReleasePagingAdapter.OnClickListener{ featured->
+        val releaseAdapter = ReleasePagingAdapter(ReleasePagingAdapter.OnClickListener { featured ->
             viewModel.watchTracks(PlaylistDomain.FEATURED.apply {
                 id = featured.id
                 cover = featured.images.last().url
             })
         }, viewModel)
-        releaseAdapter.addLoadStateListener {loadState->
+
+        releaseAdapter.addLoadStateListener { loadState ->
             binding.progressRelease.isVisible = loadState.refresh is LoadState.Loading
+            binding.errorMessage.isVisible =
+                loadState.refresh is LoadState.Error || viewModel.error.value != null
+
         }
+
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            it?.let { error ->
+                binding.errorMessage.isVisible = true
+                Log.d("JJ", "error $error")
+            }
+        })
 
         binding.recyclerRelease.adapter = releaseAdapter
 
 
-        token.observe(viewLifecycleOwner, Observer{
-            it?.let{
+        token.observe(viewLifecycleOwner, Observer {
+            it?.let {
                 lifecycleScope.launch {
-                    viewModel.releaseFlow.collectLatest{pagingData->
+                    viewModel.releaseFlow.collectLatest { pagingData ->
                         Log.d("JJ", "paging data $pagingData")
 
                         releaseAdapter.submitData(pagingData)
@@ -77,16 +81,17 @@ class ReleaseFragment : Fragment() {
         })
 
 
-        viewModel.releaseList.observe(viewLifecycleOwner, Observer{
-            it?.let{list->
-                Log.d("JJ","release list ${list.size}")
+        viewModel.releaseList.observe(viewLifecycleOwner, Observer {
+            it?.let { list ->
+                Log.d("JJ", "release list ${list.size}")
             }
         })
 
-        viewModel.tracksDomain.observe(viewLifecycleOwner, Observer{
-            it?.let{domain->
+        viewModel.tracksDomain.observe(viewLifecycleOwner, Observer {
+            it?.let { domain ->
                 findNavController()
                     .navigate(HomeFragmentDirections.actionGlobalAlbumFragment(domain))
+                viewModel.navigationComplete()
             }
         })
 

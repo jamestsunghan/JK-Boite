@@ -37,13 +37,13 @@ private val retrofitHost = Retrofit.Builder()
     .client(client)
     .build()
 
-interface KKBOXOpenApiService{
+interface KKBOXOpenApiService {
 
     @GET("new-release-categories/{category}/albums")
     suspend fun getIndieMusic(
         @Header("Authorization") token: String,
         @Path("category") category: String = "KrdH2LdyUKS8z2aoxX",
-        @Query("territory")terr: String = "TW",
+        @Query("territory") terr: String = "TW",
         @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 12
     ): AlbumResult
@@ -51,42 +51,42 @@ interface KKBOXOpenApiService{
     @GET("featured-playlists")
     suspend fun getFeaturedPlaylists(
         @Header("Authorization") token: String,
-        @Query("territory")terr: String = "TW",
-        @Query("offset")offset: Int = 0,
+        @Query("territory") terr: String = "TW",
+        @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 10
     ): ChartResult
 
     @GET("{domain}/{id}/tracks")
     suspend fun getPlaylistTracks(
         @Header("Authorization") token: String,
-        @Path("domain")domain: String,
-        @Path("id")id: String,
-        @Query("territory")terr: String = "TW",
+        @Path("domain") domain: String,
+        @Path("id") id: String,
+        @Query("territory") terr: String = "TW",
         @Query("limit") limit: Int = 100
     ): PlaylistTracksResult
 
     @GET("charts")
     suspend fun getChartPlaylists(
         @Header("Authorization") token: String,
-        @Query("territory")terr: String = "TW",
-        @Query("offset")offset: Int = 0,
+        @Query("territory") terr: String = "TW",
+        @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 10
     ): ChartResult
 
 }
 
-interface KKBOXAccountApiService{
+interface KKBOXAccountApiService {
 
     @FormUrlEncoded
     @POST("oauth2/token")
     suspend fun getToken(
-        @Field("grant_type")type: String = "client_credentials",
-        @Field("client_id")id: String = StreamApp.instance.getString(R.string.kkbox_client_id),
-        @Field("client_secret")secret: String = StreamApp.instance.getString(R.string.kkbox_client_secret)
+        @Field("grant_type") type: String = "client_credentials",
+        @Field("client_id") id: String = StreamApp.instance.getString(R.string.kkbox_client_id),
+        @Field("client_secret") secret: String = StreamApp.instance.getString(R.string.kkbox_client_secret)
     ): TokenResult
 }
 
-object KKBOXOpenApi{
-    val retrofitService: KKBOXOpenApiService by lazy{retrofit.create(KKBOXOpenApiService::class.java)}
-    val accountService: KKBOXAccountApiService by lazy{ retrofitHost.create(KKBOXAccountApiService::class.java)}
+object KKBOXOpenApi {
+    val retrofitService: KKBOXOpenApiService by lazy { retrofit.create(KKBOXOpenApiService::class.java) }
+    val accountService: KKBOXAccountApiService by lazy { retrofitHost.create(KKBOXAccountApiService::class.java) }
 }

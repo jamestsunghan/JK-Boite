@@ -8,18 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.databinding.ItemRankingBinding
 
-class RankingAdapter(val onClickListener: OnClickListener)
-    : ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffCallback) {
+class RankingAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<Chart, RankingAdapter.RankingViewHolder>(DiffCallback) {
 
-    class RankingViewHolder(private val binding: ItemRankingBinding)
-        : RecyclerView.ViewHolder(binding.root){
-        fun bind(chart: Chart){
+    class RankingViewHolder(private val binding: ItemRankingBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(chart: Chart) {
             binding.chart = chart
             binding.detail = chart.owner.name + "@" + chart.updatedAt.take(10)
             binding.executePendingBindings()
         }
     }
-    companion object DiffCallback: DiffUtil.ItemCallback<Chart>(){
+
+    companion object DiffCallback : DiffUtil.ItemCallback<Chart>() {
         override fun areItemsTheSame(oldItem: Chart, newItem: Chart): Boolean {
             return oldItem === newItem
         }
@@ -43,7 +44,7 @@ class RankingAdapter(val onClickListener: OnClickListener)
         }
     }
 
-    class OnClickListener(private val clickListener: (chart: Chart) -> Unit){
+    class OnClickListener(private val clickListener: (chart: Chart) -> Unit) {
         fun onClick(chart: Chart) = clickListener(chart)
     }
 }

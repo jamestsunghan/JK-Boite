@@ -16,6 +16,7 @@
             android:id="@+id/tabs_list"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            app:tabTextAppearance="@style/TabStyle"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.viewpager2.widget.ViewPager2

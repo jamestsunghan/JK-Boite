@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import tw.com.james.kkstream.data.*
 import tw.com.james.kkstream.release.Release
+import tw.com.james.kkstream.release.paging.ReleasedPagingSource
 
 interface StreamRepository {
 
@@ -17,6 +18,6 @@ interface StreamRepository {
 
     suspend fun getTracks(token: String, domain: PlaylistDomain): Result<PlaylistTracksResult>
 
-    suspend fun getPagingChartPlaylists(token: String): Flow<PagingData<Release>>
+    fun getPagingChartPlaylists(token: String): Flow<PagingData<Release>>
 
 }

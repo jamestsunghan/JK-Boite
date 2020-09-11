@@ -15,14 +15,15 @@ import tw.com.james.kkstream.release.Release
 import tw.com.james.kkstream.release.ReleaseViewModel
 
 class ReleasePagingAdapter(
-    val onClickListener: OnClickListener,
+    private val onClickListener: OnClickListener,
     val viewModel: ReleaseViewModel
-): PagingDataAdapter<Release, RecyclerView.ViewHolder>(DiffCallback) {
+) : PagingDataAdapter<Release, RecyclerView.ViewHolder>(DiffCallback) {
 
-    class HeaderViewHolder(val binding: ItemReleaseHeaderBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(albums: Release.AlbumItem, viewModel: ReleaseViewModel){
+    class HeaderViewHolder(val binding: ItemReleaseHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(albums: Release.AlbumItem, viewModel: ReleaseViewModel) {
             binding.albumItem = albums
-            binding.recyclerAlbum.adapter = AlbumAdapter(AlbumAdapter.OnClickListener { album->
+            binding.recyclerAlbum.adapter = AlbumAdapter(AlbumAdapter.OnClickListener { album ->
                 viewModel.watchTracks(PlaylistDomain.ALBUM.apply {
                     id = album.id
                     cover = album.images.last().url
@@ -31,20 +32,21 @@ class ReleasePagingAdapter(
             })
             var lastX = 0F
 
-            binding.recyclerAlbum.addOnItemTouchListener(object: RecyclerView.OnItemTouchListener {
+            binding.recyclerAlbum.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
                 override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
                 }
 
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
 
-                    when(e.action){
-                        MotionEvent.ACTION_DOWN ->{
+                    when (e.action) {
+                        MotionEvent.ACTION_DOWN -> {
                             lastX = e.x
                         }
                         MotionEvent.ACTION_MOVE -> {
                             val isScrollRight = e.x < lastX
 
-                            val canScrollRight = rv.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)
+                            val canScrollRight =
+                                rv.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)
 
                             rv.parent.requestDisallowInterceptTouchEvent(
                                 !isScrollRight || canScrollRight
@@ -61,8 +63,10 @@ class ReleasePagingAdapter(
             binding.executePendingBindings()
         }
     }
-    class ReleaseViewHolder(val binding: ItemReleaseBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(release: Chart){
+
+    class ReleaseViewHolder(val binding: ItemReleaseBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(release: Chart) {
             binding.chart = release
             binding.detail = release.owner.name + "@" + release.updatedAt.take(10)
             binding.executePendingBindings()
@@ -70,7 +74,7 @@ class ReleasePagingAdapter(
         }
     }
 
-    companion object DiffCallback: DiffUtil.ItemCallback<Release>(){
+    companion object DiffCallback : DiffUtil.ItemCallback<Release>() {
         override fun areItemsTheSame(oldItem: Release, newItem: Release): Boolean {
             return oldItem === newItem
         }
@@ -79,34 +83,35 @@ class ReleasePagingAdapter(
             return oldItem == newItem
         }
 
-        private const val ITEM_VIEW_TYPE_HEADER  = 0x00
+        private const val ITEM_VIEW_TYPE_HEADER = 0x00
         private const val ITEM_VIEW_TYPE_RELEASE = 0x01
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(getItem(position)){
-            is Release.AlbumItem    -> ITEM_VIEW_TYPE_HEADER
+        return when (getItem(position)) {
+            is Release.AlbumItem -> ITEM_VIEW_TYPE_HEADER
             is Release.PlayListItem -> ITEM_VIEW_TYPE_RELEASE
             else -> 100
         }
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType){
+        return when (viewType) {
             ITEM_VIEW_TYPE_HEADER -> HeaderViewHolder(
                 ItemReleaseHeaderBinding
-                    .inflate(LayoutInflater.from(parent.context), parent, false))
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+            )
             ITEM_VIEW_TYPE_RELEASE -> ReleaseViewHolder(
                 ItemReleaseBinding
-                    .inflate(LayoutInflater.from(parent.context), parent, false))
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+            )
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder){
+        when (holder) {
             is HeaderViewHolder -> holder.bind(getItem(position) as Release.AlbumItem, viewModel)
             is ReleaseViewHolder -> {
                 val chart = (getItem(position) as Release.PlayListItem).play
@@ -118,7 +123,7 @@ class ReleasePagingAdapter(
         }
     }
 
-    class OnClickListener(private val clicklistener: (chart: Chart) -> Unit){
+    class OnClickListener(private val clicklistener: (chart: Chart) -> Unit) {
         fun onClick(chart: Chart) = clicklistener(chart)
     }
 }

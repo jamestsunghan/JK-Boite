@@ -41,6 +41,7 @@ class RankingFragment : Fragment() {
             it?.let { domain ->
                 findNavController()
                     .navigate(HomeFragmentDirections.actionGlobalAlbumFragment(domain))
+                viewModel.navigationComplete()
             }
         })
 

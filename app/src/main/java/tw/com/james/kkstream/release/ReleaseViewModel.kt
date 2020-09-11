@@ -77,14 +77,8 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
         Log.d("JJJ","token $token")
 
-        releaseFlow = Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                initialLoadSize = 11
-            )
-        ){
-            ReleasedPagingSource(KKBOXOpenApi, token)
-        }.flow
+        releaseFlow = repo.getPagingChartPlaylists(token)
+
         Util.token.value = token
     }
 
@@ -103,6 +97,10 @@ class ReleaseViewModel(private val repo: StreamRepository) : ViewModel() {
 
     fun watchTracks(domain: PlaylistDomain) {
         _tracksDomain.value = domain
+    }
+
+    fun navigationComplete() {
+        _tracksDomain.value = null
     }
 
 }

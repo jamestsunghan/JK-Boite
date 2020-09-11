@@ -9,7 +9,8 @@ import tw.com.james.kkstream.data.Track
 import tw.com.james.kkstream.databinding.ItemPlaylistHeaderBinding
 import tw.com.james.kkstream.databinding.ItemPlaylistTrackBinding
 
-class PlaylistAdapter(private val onClickListener: OnClickListener) : ListAdapter<TrackListItem, RecyclerView.ViewHolder>(DiffCallback) {
+class PlaylistAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<TrackListItem, RecyclerView.ViewHolder>(DiffCallback) {
 
     class CoverViewHolder(private val binding: ItemPlaylistHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -76,7 +77,7 @@ class PlaylistAdapter(private val onClickListener: OnClickListener) : ListAdapte
         }
     }
 
-    class OnClickListener(val clicklistener: (track: Track) -> Unit){
+    class OnClickListener(val clicklistener: (track: Track) -> Unit) {
         fun onClick(track: Track) = clicklistener(track)
     }
 }

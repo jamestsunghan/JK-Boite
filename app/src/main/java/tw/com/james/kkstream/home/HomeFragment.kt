@@ -20,19 +20,19 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentHomeBinding = DataBindingUtil
-            .inflate(inflater,R.layout.fragment_home, container, false)
+            .inflate(inflater, R.layout.fragment_home, container, false)
         binding.lifecycleOwner = this
 
         binding.viewpagerList.adapter = HomePagerAdapter(requireActivity())
 
         mediator = TabLayoutMediator(binding.tabsList, binding.viewpagerList,
-            TabLayoutMediator.TabConfigurationStrategy{ tab, position ->
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = HomePageType.values()[position].title
             }
         )
 
         mediator.attach()
-        
+
         return binding.root
     }
 }

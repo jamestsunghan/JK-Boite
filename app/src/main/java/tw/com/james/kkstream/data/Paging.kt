@@ -7,6 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class Paging (
     val offset: Int,
     val limit: Int,
-    val previous: String?,
-    val next: String?
+    val previous: String? = null,
+    val next: String? = null
 ): Parcelable
