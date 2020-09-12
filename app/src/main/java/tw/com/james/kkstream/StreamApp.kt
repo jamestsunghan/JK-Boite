@@ -3,6 +3,7 @@ package tw.com.james.kkstream
 import android.app.Application
 import tw.com.james.kkstream.data.source.DefaultStreamRepository
 import tw.com.james.kkstream.data.source.StreamRemoteDataSource
+import tw.com.james.kkstream.network.KKBOXOpenApi
 import kotlin.properties.Delegates
 
 class StreamApp: Application() {
@@ -16,7 +17,7 @@ class StreamApp: Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        repo = DefaultStreamRepository(StreamRemoteDataSource)
+        repo = DefaultStreamRepository(StreamRemoteDataSource, KKBOXOpenApi)
     }
 
 

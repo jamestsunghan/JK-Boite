@@ -9,7 +9,10 @@ import tw.com.james.kkstream.network.KKBOXOpenApi
 import tw.com.james.kkstream.release.Release
 import tw.com.james.kkstream.release.paging.ReleasedPagingSource
 
-class DefaultStreamRepository(private val remote: StreamDataSource): StreamRepository{
+class DefaultStreamRepository(
+    private val remote: StreamDataSource,
+    private val KKApi: KKBOXOpenApi
+): StreamRepository{
 
     override suspend fun getToken(): Result<TokenResult> {
         return remote.getToken()
@@ -38,7 +41,7 @@ class DefaultStreamRepository(private val remote: StreamDataSource): StreamRepos
         return Pager(
             config = PagingConfig(pageSize = 10)
         ){
-            ReleasedPagingSource(KKBOXOpenApi, token)
+            ReleasedPagingSource(KKApi, token)
         }.flow
     }
 }
