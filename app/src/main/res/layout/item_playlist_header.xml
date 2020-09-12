@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="coverUrl"
             type="String" />
@@ -26,14 +27,14 @@
             android:id="@+id/chart_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/tracks_title"
             android:layout_marginStart="16dp"
-            android:textStyle="bold"
-            android:textSize="14sp"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="@+id/cover_image"
+            android:text="@string/tracks_title"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/cover_image"
-            app:layout_constraintTop_toBottomOf="@+id/cover_image"/>
+            app:layout_constraintStart_toStartOf="@+id/cover_image"
+            app:layout_constraintTop_toBottomOf="@+id/cover_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

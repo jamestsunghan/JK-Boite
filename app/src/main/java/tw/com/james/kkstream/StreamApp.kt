@@ -17,7 +17,7 @@ class StreamApp: Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        repo = DefaultStreamRepository(StreamRemoteDataSource, KKBOXOpenApi)
+        repo = DefaultStreamRepository(StreamRemoteDataSource(KKBOXOpenApi), KKBOXOpenApi)
     }
 
 

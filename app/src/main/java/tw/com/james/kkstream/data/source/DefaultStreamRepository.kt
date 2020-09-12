@@ -26,8 +26,8 @@ class DefaultStreamRepository(
         return remote.getFeaturedPlaylists(token)
     }
 
-    override suspend fun getIndieMusic(token: String): Result<AlbumResult> {
-        return remote.getIndieMusic(token)
+    override suspend fun getNewestAlbumMixed(token: String): Result<AlbumResult> {
+        return remote.getNewestAlbumMixed(token)
     }
 
     override suspend fun getTracks(

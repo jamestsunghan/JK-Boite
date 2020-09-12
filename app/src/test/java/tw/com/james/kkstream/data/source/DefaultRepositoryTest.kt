@@ -2,7 +2,6 @@ package tw.com.james.kkstream.data.source
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,9 +12,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import tw.com.james.kkstream.data.*
-import tw.com.james.kkstream.network.KKBOXAccountApiService
 import tw.com.james.kkstream.network.KKBOXOpenApi
-import tw.com.james.kkstream.network.KKBOXOpenApiService
 import java.lang.Exception
 
 
@@ -81,16 +78,16 @@ class DefaultRepositoryTest {
     @Test
     fun getIndieMusic_success() = runBlocking{
         val expected = AlbumResult(listOf(), Paging(0,0,"",""), Summary(0))
-        `when`(remote.getIndieMusic("")).thenReturn(Result.Success(expected))
-        val executed = repo.getIndieMusic("")
+        `when`(remote.getNewestAlbumMixed("")).thenReturn(Result.Success(expected))
+        val executed = repo.getNewestAlbumMixed("")
         assertEquals(0, (executed as Result.Success ).data.data.size)
     }
 
     @Test
     fun getIndieMusic_error() = runBlocking{
         val expected = Exception("Erroring")
-        `when`(remote.getIndieMusic("")).thenReturn(Result.Error(expected))
-        val executed = repo.getIndieMusic("")
+        `when`(remote.getNewestAlbumMixed("")).thenReturn(Result.Error(expected))
+        val executed = repo.getNewestAlbumMixed("")
         assertEquals(expected, (executed as Result.Error ).exception)
     }
 

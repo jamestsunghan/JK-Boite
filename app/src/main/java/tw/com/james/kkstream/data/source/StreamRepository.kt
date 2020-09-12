@@ -14,7 +14,7 @@ interface StreamRepository {
 
     suspend fun getFeaturedPlaylists(token: String): Result<ChartResult>
 
-    suspend fun getIndieMusic(token: String): Result<AlbumResult>
+    suspend fun getNewestAlbumMixed(token: String): Result<AlbumResult>
 
     suspend fun getTracks(token: String, domain: PlaylistDomain): Result<PlaylistTracksResult>
 

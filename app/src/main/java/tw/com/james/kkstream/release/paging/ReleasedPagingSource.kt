@@ -26,7 +26,7 @@ class ReleasedPagingSource(
             Log.d("JJJ", "items $items")
             LoadResult.Page(
                 data = if (initKey == 0) {
-                    val albums = KKApi.retrofitService.getIndieMusic(token)
+                    val albums = KKApi.retrofitService.getNewestAlbumMixed(token)
                     listOf(Release.AlbumItem(albums = albums.data)) + items.data.map {
                         Release.PlayListItem(it)
                     }

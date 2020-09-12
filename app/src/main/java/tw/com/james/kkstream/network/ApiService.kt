@@ -40,7 +40,7 @@ private val retrofitHost = Retrofit.Builder()
 interface KKBOXOpenApiService {
 
     @GET("new-release-categories/{category}/albums")
-    suspend fun getIndieMusic(
+    suspend fun getNewestAlbumMixed(
         @Header("Authorization") token: String,
         @Path("category") category: String = "KrdH2LdyUKS8z2aoxX",
         @Query("territory") terr: String = "TW",
