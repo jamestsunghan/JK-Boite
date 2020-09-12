@@ -39,7 +39,10 @@ class DefaultStreamRepository(
 
     override fun getPagingChartPlaylists(token: String): Flow<PagingData<Release>> {
         return Pager(
-            config = PagingConfig(pageSize = 10)
+            config = PagingConfig(
+                pageSize = 10,
+                initialLoadSize = 11
+            )
         ) {
             ReleasedPagingSource(KKApi, token)
         }.flow
