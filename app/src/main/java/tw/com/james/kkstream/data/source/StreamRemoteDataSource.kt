@@ -4,18 +4,23 @@ import tw.com.james.kkstream.R
 import tw.com.james.kkstream.StreamApp
 import tw.com.james.kkstream.Util
 import tw.com.james.kkstream.data.*
-import tw.com.james.kkstream.network.KKBOXOpenApi
+import tw.com.james.kkstream.network.KKBOXAccountApiService
+import tw.com.james.kkstream.network.KKBOXOpenApiService
 import java.lang.Exception
 
-class StreamRemoteDataSource(private val KKApi: KKBOXOpenApi) : StreamDataSource {
+class StreamRemoteDataSource(
+    private val accountService: KKBOXAccountApiService,
+    private val retrofitService: KKBOXOpenApiService,
+    private val util: Util
+) : StreamDataSource {
 
     override suspend fun getToken(): Result<TokenResult> {
-        if (!Util.isInternetConnected()) {
+        if (!util.isInternetConnected()) {
             return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
         }
 
         return try {
-            val result = KKApi.accountService.getToken()
+            val result = accountService.getToken()
             result.error?.let {
                 return Result.Fail(it)
             }
@@ -27,12 +32,12 @@ class StreamRemoteDataSource(private val KKApi: KKBOXOpenApi) : StreamDataSource
     }
 
     override suspend fun getChartPlaylists(token: String): Result<ChartResult> {
-        if (!Util.isInternetConnected()) {
+        if (!util.isInternetConnected()) {
             return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
         }
 
         return try {
-            val result = KKApi.retrofitService.getChartPlaylists(token)
+            val result = retrofitService.getChartPlaylists(token)
             result.error?.let {
                 return Result.Fail(it)
             }
@@ -44,12 +49,12 @@ class StreamRemoteDataSource(private val KKApi: KKBOXOpenApi) : StreamDataSource
     }
 
     override suspend fun getFeaturedPlaylists(token: String): Result<ChartResult> {
-        if (!Util.isInternetConnected()) {
+        if (!util.isInternetConnected()) {
             return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
         }
 
         return try {
-            val result = KKApi.retrofitService.getFeaturedPlaylists(token)
+            val result = retrofitService.getFeaturedPlaylists(token)
             result.error?.let {
                 return Result.Fail(it)
             }
@@ -61,12 +66,12 @@ class StreamRemoteDataSource(private val KKApi: KKBOXOpenApi) : StreamDataSource
     }
 
     override suspend fun getNewestAlbumMixed(token: String): Result<AlbumResult> {
-        if (!Util.isInternetConnected()) {
+        if (!util.isInternetConnected()) {
             return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
         }
 
         return try {
-            val result = KKApi.retrofitService.getNewestAlbumMixed(token)
+            val result = retrofitService.getNewestAlbumMixed(token)
             result.error?.let {
                 return Result.Fail(it)
             }
@@ -81,11 +86,11 @@ class StreamRemoteDataSource(private val KKApi: KKBOXOpenApi) : StreamDataSource
         token: String,
         domain: PlaylistDomain
     ): Result<PlaylistTracksResult> {
-        if (!Util.isInternetConnected()) {
+        if (!util.isInternetConnected()) {
             return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
         }
         return try {
-            val result = KKApi.retrofitService.getPlaylistTracks(
+            val result = retrofitService.getPlaylistTracks(
                 token = token,
                 domain = domain.text,
                 id = domain.id

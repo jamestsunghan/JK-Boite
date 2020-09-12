@@ -40,13 +40,13 @@ class ReleasePagingAdapter(
                             lastX = e.x
                         }
                         MotionEvent.ACTION_MOVE -> {
-                            val isScrollRight = e.x < lastX
+                            val isScrollLeft = e.x > lastX
 
                             val canScrollRight =
                                 rv.canScrollHorizontally(RecyclerView.FOCUS_FORWARD)
 
                             rv.parent.requestDisallowInterceptTouchEvent(
-                                !isScrollRight || canScrollRight
+                                isScrollLeft || canScrollRight
                             )
                         }
                     }

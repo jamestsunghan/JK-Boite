@@ -45,7 +45,7 @@ interface KKBOXOpenApiService {
         @Path("category") category: String = "KrdH2LdyUKS8z2aoxX",
         @Query("territory") terr: String = "TW",
         @Query("offset") offset: Int = 0,
-        @Query("limit") limit: Int = 14
+        @Query("limit") limit: Int = 10
     ): AlbumResult
 
     @GET("featured-playlists")

@@ -27,7 +27,14 @@ class ReleasedPagingSource(
             LoadResult.Page(
                 data = if (initKey == 0) {
                     val albums = KKApi.retrofitService.getNewestAlbumMixed(token)
-                    listOf(Release.AlbumItem(albums = albums.data)) + items.data.map {
+                    var list = albums.data
+                    var offset = 0
+                    while(list.size < 10){
+                        offset = if(list.isNullOrEmpty()) offset + 10 else 10 - list.size
+                        val add = KKApi.retrofitService.getNewestAlbumMixed(token, offset = offset)
+                        list = add.data
+                    }
+                    listOf(Release.AlbumItem(albums = list)) + items.data.map {
                         Release.PlayListItem(it)
                     }
                 } else {
