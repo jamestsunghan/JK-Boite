@@ -11,10 +11,6 @@ class HomePagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activi
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            HomePageType.NEW_RELEASE.pos -> HomePageType.NEW_RELEASE.fragment
-            HomePageType.RANKING.pos -> HomePageType.RANKING.fragment
-            else -> HomeFragment()
-        }
+        return HomePageType.values()[position].fragment
     }
 }

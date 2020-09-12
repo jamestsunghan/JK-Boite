@@ -9,8 +9,11 @@ import androidx.lifecycle.MutableLiveData
 
 object Util {
 
-
     val token = MutableLiveData<String>()
+
+    fun getString(id: Int): String{
+        return StreamApp.instance.getString(id)
+    }
 
     @SuppressLint("MissingPermission")
     fun isInternetConnected(): Boolean {

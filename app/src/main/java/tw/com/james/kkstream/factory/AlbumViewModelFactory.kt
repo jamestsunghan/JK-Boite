@@ -11,10 +11,10 @@ import tw.com.james.kkstream.data.source.StreamRepository
 class AlbumViewModelFactory(
     private val repo: StreamRepository,
     private val domain: PlaylistDomain
-): ViewModelProvider.Factory{
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        with(modelClass){
-            when{
+        with(modelClass) {
+            when {
                 isAssignableFrom(PlaylistViewModel::class.java) ->
                     PlaylistViewModel(repo, domain)
                 else -> throw IllegalArgumentException("Unknown ViewModel Class ${modelClass.name}")

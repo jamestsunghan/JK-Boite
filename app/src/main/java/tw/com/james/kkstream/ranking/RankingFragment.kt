@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import tw.com.james.kkstream.R
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.databinding.FragmentRankingBinding
+import tw.com.james.kkstream.ext.addInfo
 import tw.com.james.kkstream.ext.getVMFactory
 import tw.com.james.kkstream.home.HomeFragmentDirections
 
@@ -30,11 +31,7 @@ class RankingFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.recyclerChart.adapter = RankingAdapter(RankingAdapter.OnClickListener { chart ->
-
-            viewModel.watchTracks(PlaylistDomain.CHART.apply {
-                id = chart.id
-                cover = chart.images.last().url
-            })
+            viewModel.watchTracks(PlaylistDomain.CHART.addInfo(chart))
         })
 
         viewModel.tracksDomain.observe(viewLifecycleOwner, Observer {

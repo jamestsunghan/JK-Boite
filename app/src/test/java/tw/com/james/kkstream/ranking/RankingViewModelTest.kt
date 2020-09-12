@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import tw.com.james.kkstream.Util.token
 import tw.com.james.kkstream.data.*
+import tw.com.james.kkstream.data.source.DefaultStreamRepository
 import tw.com.james.kkstream.data.source.StreamRepository
 import java.lang.Exception
 
@@ -29,7 +30,7 @@ internal class RankingViewModelTest {
     val testInstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    lateinit var repository: StreamRepository
+    lateinit var repository: DefaultStreamRepository
 
     lateinit var viewModel: RankingViewModel
 

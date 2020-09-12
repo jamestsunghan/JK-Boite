@@ -21,6 +21,7 @@ import tw.com.james.kkstream.Util.token
 import tw.com.james.kkstream.data.LoadStatus
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.databinding.FragmentReleaseBinding
+import tw.com.james.kkstream.ext.addInfo
 import tw.com.james.kkstream.ext.getVMFactory
 import tw.com.james.kkstream.home.HomeFragmentDirections
 import tw.com.james.kkstream.release.paging.ReleasePagingAdapter
@@ -42,10 +43,7 @@ class ReleaseFragment : Fragment() {
         binding.viewModel = viewModel
 
         val releaseAdapter = ReleasePagingAdapter(ReleasePagingAdapter.OnClickListener { featured ->
-            viewModel.watchTracks(PlaylistDomain.FEATURED.apply {
-                id = featured.id
-                cover = featured.images.last().url
-            })
+            viewModel.watchTracks(PlaylistDomain.FEATURED.addInfo(featured))
         }, viewModel)
 
         releaseAdapter.addLoadStateListener { loadState ->

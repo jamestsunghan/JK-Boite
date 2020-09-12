@@ -12,7 +12,7 @@ import tw.com.james.kkstream.release.paging.ReleasedPagingSource
 class DefaultStreamRepository(
     private val remote: StreamDataSource,
     private val KKApi: KKBOXOpenApi
-): StreamRepository{
+) : StreamRepository {
 
     override suspend fun getToken(): Result<TokenResult> {
         return remote.getToken()
@@ -40,7 +40,7 @@ class DefaultStreamRepository(
     override fun getPagingChartPlaylists(token: String): Flow<PagingData<Release>> {
         return Pager(
             config = PagingConfig(pageSize = 10)
-        ){
+        ) {
             ReleasedPagingSource(KKApi, token)
         }.flow
     }

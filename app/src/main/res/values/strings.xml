@@ -5,4 +5,6 @@
     <string name="new_album">最新發行專輯</string>
     <string name="new_playlist">近期精選歌單</string>
     <string name="tracks_title">歌曲列表</string>
+    <string name="new_release_title">新發行</string>
+    <string name="chart_title">排行榜</string>
 </resources>

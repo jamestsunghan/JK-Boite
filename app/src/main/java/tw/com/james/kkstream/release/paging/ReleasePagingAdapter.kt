@@ -10,6 +10,7 @@ import tw.com.james.kkstream.data.Chart
 import tw.com.james.kkstream.data.PlaylistDomain
 import tw.com.james.kkstream.databinding.ItemReleaseBinding
 import tw.com.james.kkstream.databinding.ItemReleaseHeaderBinding
+import tw.com.james.kkstream.ext.addInfo
 import tw.com.james.kkstream.release.AlbumAdapter
 import tw.com.james.kkstream.release.Release
 import tw.com.james.kkstream.release.ReleaseViewModel
@@ -24,11 +25,7 @@ class ReleasePagingAdapter(
         fun bind(albums: Release.AlbumItem, viewModel: ReleaseViewModel) {
             binding.albumItem = albums
             binding.recyclerAlbum.adapter = AlbumAdapter(AlbumAdapter.OnClickListener { album ->
-                viewModel.watchTracks(PlaylistDomain.ALBUM.apply {
-                    id = album.id
-                    cover = album.images.last().url
-                    this.album = album
-                })
+                viewModel.watchTracks(PlaylistDomain.ALBUM.addInfo(album))
             })
             var lastX = 0F
 

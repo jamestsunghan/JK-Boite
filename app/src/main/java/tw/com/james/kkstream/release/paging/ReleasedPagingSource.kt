@@ -17,14 +17,16 @@ class ReleasedPagingSource(
         Log.d("JJ", "paging source loading")
         return try {
             val initKey = if (params is LoadParams.Append) params.key else 0
-            val albums = KKApi.retrofitService.getIndieMusic(token)
+
             val items = KKApi.retrofitService.getFeaturedPlaylists(
                 token = token,
                 offset = initKey
             )
+
             Log.d("JJJ", "items $items")
             LoadResult.Page(
                 data = if (initKey == 0) {
+                    val albums = KKApi.retrofitService.getIndieMusic(token)
                     listOf(Release.AlbumItem(albums = albums.data)) + items.data.map {
                         Release.PlayListItem(it)
                     }
@@ -32,7 +34,7 @@ class ReleasedPagingSource(
                     items.data.map { Release.PlayListItem(it) }
                 },
                 prevKey = if (initKey <= 0) null else initKey - 10,
-                nextKey = initKey + 10
+                nextKey = if(items.data.size < 10) null else initKey + 10
             )
         } catch (e: IOException) {
             LoadResult.Error(e)

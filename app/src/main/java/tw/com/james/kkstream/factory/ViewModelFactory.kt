@@ -7,10 +7,10 @@ import tw.com.james.kkstream.ranking.RankingViewModel
 import tw.com.james.kkstream.release.ReleaseViewModel
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(val repo: StreamRepository): ViewModelProvider.Factory{
+class ViewModelFactory(val repo: StreamRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        with(modelClass){
-            when{
+        with(modelClass) {
+            when {
                 isAssignableFrom(RankingViewModel::class.java) ->
                     RankingViewModel(repo)
                 isAssignableFrom(ReleaseViewModel::class.java) ->
