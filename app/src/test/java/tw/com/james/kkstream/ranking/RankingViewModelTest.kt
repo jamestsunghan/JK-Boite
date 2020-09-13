@@ -47,7 +47,7 @@ internal class RankingViewModelTest {
     val testScope = TestCoroutineScope(testDispatcher)
 
     @Before
-    fun setup(){
+    fun setup() {
         MockitoAnnotations.initMocks(this)
         Dispatchers.setMain(testDispatcher)
         viewModel = RankingViewModel(repository)
@@ -57,7 +57,7 @@ internal class RankingViewModelTest {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()
         testScope.cleanupTestCoroutines()
@@ -65,7 +65,7 @@ internal class RankingViewModelTest {
 
     @Test
     fun getChartList_success() = testDispatcher.runBlockingTest {
-        val expected = ChartResult(listOf(), Paging(0,0,"",""), Summary(0))
+        val expected = ChartResult(listOf(), Paging(0, 0, "", ""), Summary(0))
         `when`(repository.getChartPlaylists("")).thenReturn(Result.Success(expected))
         viewModel.getChart("")
         verify(chartListObserver, times(1)).onChanged(ArgumentMatchers.isNotNull())
@@ -81,7 +81,7 @@ internal class RankingViewModelTest {
 
     @Test
     fun getToken_success() = testDispatcher.runBlockingTest {
-        val expected = TokenResult("","type",100)
+        val expected = TokenResult("", "type", 100)
         `when`(repository.getToken()).thenReturn(Result.Success(expected))
         viewModel.getToken()
         verify(tokenObserver, times(1)).onChanged(ArgumentMatchers.isNotNull())

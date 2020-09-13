@@ -16,11 +16,14 @@ class StreamRemoteDataSource(
 
     override suspend fun getToken(): Result<TokenResult> {
         if (!util.isInternetConnected()) {
-            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+            return Result.Fail(util.getString(R.string.no_internet))
         }
 
         return try {
-            val result = accountService.getToken()
+            val result = accountService.getToken(
+                id = util.getString(R.string.kkbox_client_id),
+                secret = util.getString(R.string.kkbox_client_secret)
+            )
             result.error?.let {
                 return Result.Fail(it)
             }
@@ -33,7 +36,7 @@ class StreamRemoteDataSource(
 
     override suspend fun getChartPlaylists(token: String): Result<ChartResult> {
         if (!util.isInternetConnected()) {
-            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+            return Result.Fail(util.getString(R.string.no_internet))
         }
 
         return try {
@@ -50,7 +53,7 @@ class StreamRemoteDataSource(
 
     override suspend fun getFeaturedPlaylists(token: String): Result<ChartResult> {
         if (!util.isInternetConnected()) {
-            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+            return Result.Fail(util.getString(R.string.no_internet))
         }
 
         return try {
@@ -67,7 +70,7 @@ class StreamRemoteDataSource(
 
     override suspend fun getNewestAlbumMixed(token: String): Result<AlbumResult> {
         if (!util.isInternetConnected()) {
-            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+            return Result.Fail(util.getString(R.string.no_internet))
         }
 
         return try {
@@ -87,7 +90,7 @@ class StreamRemoteDataSource(
         domain: PlaylistDomain
     ): Result<PlaylistTracksResult> {
         if (!util.isInternetConnected()) {
-            return Result.Fail(StreamApp.instance.getString(R.string.no_internet))
+            return Result.Fail(util.getString(R.string.no_internet))
         }
         return try {
             val result = retrofitService.getPlaylistTracks(

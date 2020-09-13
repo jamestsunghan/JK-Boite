@@ -81,8 +81,8 @@ interface KKBOXAccountApiService {
     @POST("oauth2/token")
     suspend fun getToken(
         @Field("grant_type") type: String = "client_credentials",
-        @Field("client_id") id: String = StreamApp.instance.getString(R.string.kkbox_client_id),
-        @Field("client_secret") secret: String = StreamApp.instance.getString(R.string.kkbox_client_secret)
+        @Field("client_id") id: String,
+        @Field("client_secret") secret: String
     ): TokenResult
 }
 
