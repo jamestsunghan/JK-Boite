@@ -49,6 +49,6 @@ the playlist of each item, the tracks of each playlist, and a webview for each t
 
 **Android Studio** - 3.6.2
 
-**Android SDK** - 23+
+**Android SDK** - 22+
 
 **Gradle** - 3.6.2
