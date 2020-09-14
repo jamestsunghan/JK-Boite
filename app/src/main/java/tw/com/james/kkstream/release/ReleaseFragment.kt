@@ -24,6 +24,7 @@ import tw.com.james.kkstream.databinding.FragmentReleaseBinding
 import tw.com.james.kkstream.ext.addInfo
 import tw.com.james.kkstream.ext.getVMFactory
 import tw.com.james.kkstream.home.HomeFragmentDirections
+import tw.com.james.kkstream.release.paging.ReleaseLoadStateAdapter
 import tw.com.james.kkstream.release.paging.ReleasePagingAdapter
 
 class ReleaseFragment : Fragment() {
@@ -61,7 +62,9 @@ class ReleaseFragment : Fragment() {
             }
         })
 
-        binding.recyclerRelease.adapter = releaseAdapter
+        binding.recyclerRelease.adapter = releaseAdapter.apply{
+            withLoadStateFooter(ReleaseLoadStateAdapter{ retry() })
+        }
 
         token.observe(viewLifecycleOwner, Observer {
             it?.let {
