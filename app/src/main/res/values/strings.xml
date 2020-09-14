@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">KK Stream</string>
+    <string name="app_name">JJ Box</string>
+    <string name="not_here">you are not suppose to be here</string>
+    <string name="no_internet">您尚未連接到網路</string>
+    <string name="new_album">最新發行專輯</string>
+    <string name="new_playlist">近期精選歌單</string>
+    <string name="tracks_title">歌曲列表</string>
+    <string name="new_release_title">新發行</string>
+    <string name="chart_title">排行榜</string>
+    <string name="try_again">再試一次</string>
 </resources>
